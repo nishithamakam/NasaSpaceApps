@@ -213,6 +213,9 @@ function move_telescope(dx, dy) {
     }
 
     telescope_props = telescope.getBoundingClientRect();
+    if (dx > 0) {
+        increase_score(); // Increment the score when moving right
+    }
 }
 
 
@@ -238,6 +241,7 @@ function play() {
                     message.innerHTML = 'Game Over'.fontcolor('red') + '<br>Press Enter To Restart';
                     message.classList.add('messageStyle');
                     img.style.display = 'none';
+                    asteroid_hit();
                     sound_die.play();
                     return;
                 } else {
@@ -295,6 +299,14 @@ function play() {
     requestAnimationFrame(create_asteroid);
     
     
+}
+function asteroid_hit() {
+    sound_die.play();
+}
+
+function increase_score() {
+    score_val.innerHTML = parseInt(score_val.innerHTML) + 1;
+    sound_point.play();
 }
 
 
