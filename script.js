@@ -304,10 +304,31 @@ function asteroid_hit() {
     sound_die.play();
 }
 
-function increase_score() {
+/*function increase_score() {
     score_val.innerHTML = parseInt(score_val.innerHTML) + 1;
     sound_point.play();
+}*/
+function increase_score() {
+    setTimeout(() => {
+        score_val.innerHTML = parseInt(score_val.innerHTML) + 1;
+        sound_point.play();
+    }, 3500); // Adjust the delay (in milliseconds) as needed
 }
-
+/*function increase_score() {
+    setTimeout(() => {
+        if (game_state === 'Play') {
+            score++;
+            score_val.innerHTML = 'Score: ' + score;
+            sound_point.play();
+        }
+    }, 1500); // Adjust the delay (in milliseconds) as needed
+}*/
+/*function increase_score() {
+    if (game_state === 'Play') {
+        score++;
+        score_val.innerHTML = 'Score: ' + score;
+        sound_point.play();
+    }
+}*/
 
  
