@@ -97,3 +97,10 @@
     background-size: cover;
     z-index: 2; /* Adjust z-index if needed */
 }
+.debris {
+    position: fixed;
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    background-size: cover;
+    z-index: 2; /* Adjust z-index if needed */
+}

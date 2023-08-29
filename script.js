@@ -203,8 +203,12 @@ function move_telescope(dx, dy) {
     // Limit telescope movement within the window boundaries
     const maxX = window.innerWidth - telescope_props.width;
     const maxY = window.innerHeight - telescope_props.height;
-
-    if (newLeft >= 0 && newLeft <= maxX) {
+    if (newLeft > maxX) {
+        telescope.style.left = '0px'; // Reset to the beginning if reaching right edge
+    } else if (newLeft < 0) {
+        telescope.style.left = maxX + 'px'; 
+    }
+    else if (newLeft >= 0 && newLeft <= maxX) {
         telescope.style.left = newLeft + 'px';
     }
 
@@ -221,6 +225,7 @@ function move_telescope(dx, dy) {
 
 function play() {
     function move() {
+
         if (game_state !== 'Play') return;
 
         let asteroids = document.querySelectorAll('.asteroid');
@@ -249,6 +254,34 @@ function play() {
                 }
             }
         });
+    if (game_state !== 'Play') return;
+
+    let debrisElements = document.querySelectorAll('.debris');
+    debrisElements.forEach((debris) => {
+        let debrisProps = debris.getBoundingClientRect();
+        telescopeProps = telescope.getBoundingClientRect();
+
+        if (debrisProps.right <= 0) {
+            debris.remove();
+        } else {
+            if (
+                telescopeProps.left < debrisProps.left + debrisProps.width &&
+                telescopeProps.left + telescopeProps.width > debrisProps.left &&
+                telescopeProps.top < debrisProps.top + debrisProps.height &&
+                telescopeProps.top + telescopeProps.height > debrisProps.top
+            ) {
+                game_state = 'End';
+                message.innerHTML = 'Game Over'.fontcolor('red') + '<br>Press Enter To Restart';
+                message.classList.add('messageStyle');
+                img.style.display = 'none';
+                asteroid_hit();
+                return;
+            } else {
+                debris.style.left = debrisProps.left - move_speed + 'px';
+            }
+        }
+    });
+
         requestAnimationFrame(move);
     }
     requestAnimationFrame(move);
@@ -295,9 +328,35 @@ function play() {
         asteroid_separation++;
         requestAnimationFrame(create_asteroid);
     }
-
     requestAnimationFrame(create_asteroid);
+
+
+    let debris_separation = 0;
+    function create_debris() {
+        if (game_state !== 'Play') return;
     
+        if (debris_separation > 200) {
+            debris_separation = 0;
+    
+            let debris_pos_x = Math.floor(Math.random() * window.innerWidth);
+            let debris_pos_y = Math.floor(Math.random() * window.innerHeight);
+    
+            let debris = document.createElement('div');
+            debris.className = 'debris';
+    
+            const randomDebrisNumber = Math.floor(Math.random() * 6) + 1;
+            debris.style.backgroundImage = `url('images/debris${randomDebrisNumber}.png')`;
+    
+            debris.style.left = debris_pos_x + 'px';
+            debris.style.top = debris_pos_y + 'px';
+    
+            document.body.appendChild(debris);
+        }
+    
+        debris_separation++;
+        requestAnimationFrame(create_debris);
+    }
+    requestAnimationFrame(create_debris);
     
 }
 function asteroid_hit() {
@@ -312,23 +371,8 @@ function increase_score() {
     setTimeout(() => {
         score_val.innerHTML = parseInt(score_val.innerHTML) + 1;
         sound_point.play();
-    }, 3500); // Adjust the delay (in milliseconds) as needed
+    }, 5000); // Adjust the delay (in milliseconds) as needed
 }
-/*function increase_score() {
-    setTimeout(() => {
-        if (game_state === 'Play') {
-            score++;
-            score_val.innerHTML = 'Score: ' + score;
-            sound_point.play();
-        }
-    }, 1500); // Adjust the delay (in milliseconds) as needed
-}*/
-/*function increase_score() {
-    if (game_state === 'Play') {
-        score++;
-        score_val.innerHTML = 'Score: ' + score;
-        sound_point.play();
-    }
-}*/
+ 
 
  
