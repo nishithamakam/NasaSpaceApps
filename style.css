@@ -18,7 +18,7 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-	
+
 }
 .bird {
 	height: 100px;
@@ -34,7 +34,7 @@
 	left: 100vw;
 	height: 70vh;
 	width: 6vw;
-	background:radial-gradient(lightgreen 50%, green);
+    background:radial-gradient();
 	border: 5px solid black;
 }
 .message {
@@ -87,4 +87,13 @@
 	.pipe_sprite{
 		width: 14vw;
 	}
+}
+
+.asteroid {
+    position: fixed;
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    background: url('images/asteroid4.png') no-repeat center center;
+    background-size: cover;
+    z-index: 2; /* Adjust z-index if needed */
 }
